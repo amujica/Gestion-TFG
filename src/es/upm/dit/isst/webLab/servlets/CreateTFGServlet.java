@@ -36,7 +36,7 @@ public class CreateTFGServlet extends HttpServlet {
 		tfg.setEmail( email);
 		tfg.setAdvisor(advisor);
 		tfg.setStatus(status);
-		tfg.setPassword(password);
+		tfg.setPassword(new Sha256Hash(password).toString());
 		
 		TFGDAO tdao = TFGDAOImplementation.getInstance();
 		tdao.create( tfg );
