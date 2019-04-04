@@ -3,6 +3,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,31 +29,35 @@
 				<th>Nombre del tutor</th>
 				<th>Estado del TFG</th>
 				<th>Memoria</th>
-				<th>Acción requerida</th>
+				
 			</tr>
 	
 				<tr>
-					<td>${email.title} </td>
-					<td>${email.email }</td>
-					<td>${email.name }</td>
-					<td>${email.advisor.email }</td>
-					<td>${email.advisor.name }</td>
-					<td>${email.status }</td>
-					<td><c:if test="${email.status > 3}">
+					<td>${tfg.title} </td>
+					<td>${tfg.email }</td>
+					<td>${tfg.name }</td>
+					<td>${tfg.advisor.email }</td>
+					<td>${tfg.advisor.name }</td>
+					<td>${tfg.status }</td>
+					<td><c:if test="${tfg.status > 3}">
 							<form action="ServeFileServlet">
-								<input type="hidden" name="email" value="${email.email}" />
+								<input type="hidden" name="email" value="${tfg.email}" />
 								<button type="submit">Descargar</button>
 							</form>
 						</c:if></td>
-					<td><c:if test="${email.status == 2}">
-							<form action="Form3SecretaryServlet" method="post">
-								<input type="hidden" name="email" value="${email.email}" />
-								<button type="submit">Aceptar tfg</button>
-							</form>
-						</c:if></td>
+				
 				</tr>
 			
 		</table>
+		
+		<c:if test="${tfg.status == 3}">
+		<form action="Form4TFGServlet" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+		<button type="submit">Subir memoria</button>
+		</c:if>
+		
+	</form>
+		
 
 
 </body>

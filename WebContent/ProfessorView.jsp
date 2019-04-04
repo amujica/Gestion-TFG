@@ -26,9 +26,9 @@
 			</tr>
 			
 				<tr>
-					<td>${email.name }</td>
-					<td>${email.email }</td>
-					<td>${fn:length(email.advisedTFGs) }</td>
+					<td>${professor.name }</td>
+					<td>${professor.email }</td>
+					<td>${fn:length(professor.advisedTFGs) }</td>
 				</tr>
 			
 		</table>
@@ -45,7 +45,7 @@
 				<th>Memoria</th>
 				<th>Acción requerida</th>
 			</tr>
-			<c:forEach items="${email.advisedTFGs}" var="advisedTFG">
+			<c:forEach items="${professor.advisedTFGs}" var="advisedTFG">
 				<tr>
 					<td>${advisedTFG.title }</td>
 					<td>${advisedTFG.email }</td>
@@ -59,8 +59,8 @@
 								<button type="submit">Descargar</button>
 							</form>
 						</c:if></td>
-					<td><c:if test="${advisedTFG.status == 2}">
-							<form action="Form3SecretaryServlet" method="post">
+					<td><c:if test="${advisedTFG.status == 1}">
+							<form action="Form2ProfessorServlet" method="post">
 								<input type="hidden" name="email" value="${advisedTFG.email}" />
 								<button type="submit">Aceptar tfg</button>
 							</form>
@@ -68,43 +68,7 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<%/* 
-		bucles con advisedTfgs
-		<table border="1">
-			<tr>
-				<th>Título</th>
-				<th>Email alumno</th>
-				<th>Nombre del alumno</th>
-				<th>Email tutor</th>
-				<th>Nombre del tutor</th>
-				<th>Estado del TFG</th>
-				<th>Memoria</th>
-				<th>Acción requerida</th>
-			</tr>
-	
-				<tr>
-					<td>${email.title} </td>
-					<td>${email.email }</td>
-					<td>${email.name }</td>
-					<td>${email.advisor.email }</td>
-					<td>${email.advisor.name }</td>
-					<td>${email.status }</td>
-					<td><c:if test="${email.status > 3}">
-							<form action="ServeFileServlet">
-								<input type="hidden" name="email" value="${email.email}" />
-								<button type="submit">Descargar</button>
-							</form>
-						</c:if></td>
-					<td><c:if test="${email.status == 2}">
-							<form action="Form3SecretaryServlet" method="post">
-								<input type="hidden" name="email" value="${email.email}" />
-								<button type="submit">Aceptar tfg</button>
-							</form>
-						</c:if></td>
-				</tr>
-			
-		</table>
-		*/ %>
+		
 
 </body>
 </html>

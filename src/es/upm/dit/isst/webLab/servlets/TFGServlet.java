@@ -29,7 +29,7 @@ public class TFGServlet extends HttpServlet {
 		//Línea para conseguir el email email = ....
 		String email = req.getParameter( "email" );
 		TFGDAO tdao = TFGDAOImplementation.getInstance();
-		req.getSession().setAttribute( "email", tdao.read(email) );
+		req.getSession().setAttribute( "tfg", tdao.read(email) );
 		getServletContext().getRequestDispatcher( "/TFGView.jsp" ).forward( req, resp );
 	}
 }

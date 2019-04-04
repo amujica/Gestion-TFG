@@ -10,24 +10,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 
 import es.upm.dit.isst.webLab.dao.ProfessorDAO;
 import es.upm.dit.isst.webLab.dao.ProfessorDAOImplementation;
 import es.upm.dit.isst.webLab.dao.TFGDAO;
 import es.upm.dit.isst.webLab.dao.TFGDAOImplementation;
+import es.upm.dit.isst.webLab.model.Professor;
+import es.upm.dit.isst.webLab.model.TFG;
 
-@WebServlet("/ProfessorServlet")
-public class ProfessorServlet extends HttpServlet {
+@WebServlet("/Form2ProfessorServlet")
+public class Form2ProfessorServlet extends HttpServlet {
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+		String email = req.getParameter( "email" );
+		TFGDAO tdao = TFGDAOImplementation.getInstance();
+		TFG tfg = tdao.read(email);
 		
-		String email = req.getParameter( "email" ); //duda de si esto está bien, o hay que coger
-		//el parámetro de aquí: "/ProfessorServlet?email=" + currentUser.getPrincipal()
-		ProfessorDAO pdao = ProfessorDAOImplementation.getInstance();
-		req.getSession().setAttribute( "professor", pdao.read(email) );
-		
-		getServletContext().getRequestDispatcher( "/ProfessorView.jsp" ).forward( req, resp );
+		tfg.setStatus(2);
+		tdao.update(tfg);
+	
+		resp.sendRedirect( req.getContextPath() + "/ProfessorServlet?email=" +  tfg.getAdvisor().getEmail());
 	}
 }
