@@ -26,7 +26,7 @@ public class TFGServlet extends HttpServlet {
 		// y aquí tengo que buscar en la BBDD su TFG y cargar la vista TFGView, que con
 		//los parámetros que le pase desde aquí podrá presentarlo bien por pantalla
 		
-		//Línea para conseguir el email email = ....
+		
 		String email = req.getParameter( "email" );
 		TFGDAO tdao = TFGDAOImplementation.getInstance();
 		req.getSession().setAttribute( "tfg", tdao.read(email) );

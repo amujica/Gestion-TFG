@@ -13,12 +13,18 @@ import es.upm.dit.isst.webLab.dao.TFGDAO;
 import es.upm.dit.isst.webLab.dao.TFGDAOImplementation;
 import es.upm.dit.isst.webLab.model.TFG;
 
-@MultipartConfig
+
 @WebServlet("/Form4TFGServlet")
+@MultipartConfig
 public class Form4TFGServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String email = req.getParameter( "email" );
+		
+		TFGDAO tdao = TFGDAOImplementation.getInstance();
+		TFG tfg = tdao.read(email);
 		
 		Part filePart = req.getPart("file");
 		InputStream fileContent = filePart.getInputStream();
@@ -26,15 +32,12 @@ public class Form4TFGServlet extends HttpServlet {
 		byte[] buffer = new byte[10240];
 		for (int length = 0; (length = fileContent.read(buffer)) > 0;) output.write(buffer, 0, length);
 		
-		TFGDAO tdao = TFGDAOImplementation.getInstance();
-		
-		String email = req.getParameter("email");
-		TFG tfg = tdao.read(email);	
-		tfg.setStatus(4);
 		tfg.setDocument(output.toByteArray());
+		tfg.setStatus(4);
+
+	    tdao.update(tfg);
 		
-		tdao.update(tfg);
+		resp.sendRedirect( req.getContextPath() + "/TFGServlet?email=" +  tfg.getEmail());
 		
-		resp.sendRedirect( req.getContextPath() + "/TFGServlet?email=" +  email);
 	}
 }

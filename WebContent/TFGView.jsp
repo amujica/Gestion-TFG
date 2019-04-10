@@ -13,7 +13,7 @@
 <body>
 <shiro:user>
     Welcome back <shiro:principal />! Click <a href="LogoutServlet">here</a> to logout.
-</shiro:user>
+
 <hr>
 	<h2>Vista de TFG</h2>
 	
@@ -50,8 +50,11 @@
 			
 		</table>
 		
+		<br/>
+		
 		<c:if test="${tfg.status == 3}">
 		<form action="Form4TFGServlet" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="email" value="${tfg.email}" />
         <input type="file" name="file" />
 		<button type="submit">Subir memoria</button>
 		</c:if>
@@ -59,6 +62,6 @@
 	</form>
 		
 
-
+</shiro:user>
 </body>
 </html>
